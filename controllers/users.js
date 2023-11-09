@@ -9,10 +9,10 @@ module.exports.getUsers = (req, res) => {
         about: user.about,
         avatar: user.avatar,
       }));
-      res.send({ data: usersData });
+      return res.send({ data: usersData });
     })
     .catch((err) => {
-      res.status(500).send({ message: err.message });
+      return res.status(500).send({ message: err.message });
     });
 };
 
@@ -28,12 +28,12 @@ module.exports.getUserById = (req, res) => {
     }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Некорректно введен id' });
+        return res.status(400).send({ message: 'Некорректно введен id' });
       }
       if (err.name === 'TypeError') {
-        res.status(404).send({ message: 'Пользователь по указанному _id не найден' });
+        return res.status(404).send({ message: 'Пользователь по указанному _id не найден' });
       }
-      res.status(500).send({ message: err.message });
+      return res.status(500).send({ message: err.message });
     });
 };
 
@@ -44,9 +44,9 @@ module.exports.createUser = (req, res) => {
     .then(user => res.status(201).send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Переданы некорректные данные при создании пользователя' });
+        return res.status(400).send({ message: 'Переданы некорректные данные при создании пользователя' });
       }
-      res.status(500).send({ message: err.message });
+      return res.status(500).send({ message: err.message });
     });
 };
 
@@ -64,9 +64,9 @@ module.exports.updateProfile = (req, res) => {
     }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Переданы некорректные данные при обновлении профиля' });
+        return res.status(400).send({ message: 'Переданы некорректные данные при обновлении профиля' });
       }
-      res.status(500).send({ message: err.message });
+      return res.status(500).send({ message: err.message });
     });
 };
 
@@ -84,8 +84,8 @@ module.exports.updateAvatar = (req, res) => {
     }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Переданы некорректные данные при обновлении аватара' });
+        return res.status(400).send({ message: 'Переданы некорректные данные при обновлении аватара' });
       }
-      res.status(500).send({ message: err.message });
+      return res.status(500).send({ message: err.message });
     });
 };

@@ -13,9 +13,9 @@ module.exports.createCard = (req, res) => {
     .then(card => res.status(201).send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Переданы некорректные данные при создании карточки' });
+        return res.status(400).send({ message: 'Переданы некорректные данные при создании карточки' });
       }
-      res.status(500).send({ message: err.message });
+      return res.status(500).send({ message: err.message });
     });
 };
 
@@ -25,9 +25,9 @@ module.exports.deleteCardById = (req, res) => {
     .then((card) => card ? res.send({ message: 'Карточка удалена!' }) : res.status(404).send({ message: 'Карточка по указанному id не найдена' }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Карточка по указанному id не найдена' });
+        return res.status(400).send({ message: 'Карточка по указанному id не найдена' });
       }
-      res.status(500).send({ message: err.message });
+      return res.status(500).send({ message: err.message });
     });
 };
 
@@ -40,9 +40,9 @@ module.exports.likeCard = (req, res) => Card.findByIdAndUpdate(
   .catch((err) => {
     console.log(err.name);
     if (err.name === 'CastError') {
-      res.status(400).send({ message: 'Передан некорректный id карточки' });
+      return res.status(400).send({ message: 'Передан некорректный id карточки' });
     }
-    res.status(500).send({ message: err.message });
+    return res.status(500).send({ message: err.message });
   });
 
 module.exports.dislikeCard = (req, res) => Card.findByIdAndUpdate(
@@ -53,7 +53,7 @@ module.exports.dislikeCard = (req, res) => Card.findByIdAndUpdate(
   .then(card => card ? res.send({ data: card }) : res.status(404).send({ message: 'Карточка не найдена' }))
   .catch((err) => {
     if (err.name === 'CastError') {
-      res.status(400).send({ message: 'Передан некорректный id карточки' });
+      return res.status(400).send({ message: 'Передан некорректный id карточки' });
     }
-    res.status(500).send({ message: err.message });
+    return res.status(500).send({ message: err.message });
   });
